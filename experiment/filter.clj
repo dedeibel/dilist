@@ -1,10 +1,13 @@
-(ns parseStart
+(ns experiment.filter
   (:require [clj-http.client :as client])
-  (:require [net.cgrand.enlive-html :as enlive])
   (:import java.net.URL)
+  (:require [net.cgrand.enlive-html :as enlive])
   (:import java.io.StringReader))
 
-(def resp (slurp "index.html"))
+(def resp (slurp "experiment/index.html"))
 
 (println "Page size: " (count resp))
-(println (-> resp (StringReader.) (enlive/html-resource) (enlive/select [:body :img]) first :attrs :src))
+(def channels (-> resp (StringReader.) (enlive/html-resource)
+           (enlive/select
+              [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])))
+(println channels)
