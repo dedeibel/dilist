@@ -14,3 +14,13 @@
 (deftest returnsSingleChannelDeeptechsName
   (testing "Not all channels from the file could be found."
     (is (= "Deep Tech" (:name (first (channels only_deeptech_html)))))))
+
+(deftest firstChannelMetaContentIsCorrect
+         (let [firstChannel (first (channels only_deeptech_html))]
+           (is (= "Deep Tech" (:name firstChannel)))))
+
+(deftest firstChannelfirstSteamCorrect
+         (let [firstChannel (first (channels only_deeptech_html))
+               streams      (:streams firstChannel)]
+           (is (= "http://listen.di.fm/public3/deeptech.pls" (:url (nth streams 0))))))
+

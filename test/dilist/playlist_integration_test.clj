@@ -5,6 +5,7 @@
 
 ; TODO Needs to be redefined to check for all entries of a channel
 (deftest listWithAllChannels
-  (testing "Not all channels from the file could be found."
-    (is (= 51 (count (channels index_html))))))
+         (testing "Not all channels from the file could be found."
+                  (is (= 51 (count (channels index_html))))))
+
 
