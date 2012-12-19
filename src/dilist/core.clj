@@ -22,24 +22,28 @@
         streamQualityContainer (enlive/select streamContainer [:ul :> :li :> :a])]
     (let [streamFormatName  (-> streamContainer (enlive/select [enlive/root :> :a]) (first) (:content) (first))
           streamNameRaw     (-> streamQualityContainer (enlive/select [enlive/text-node]))
-          streamName        (doall (string/replace streamNameRaw #"\n" ""))
+          streamName        (string/replace streamNameRaw #"\n" "")
           streamURL         (:href (:attrs streamQualityContainer))]
       {
        :format streamFormatName
        :name   streamName ; TODO WHY IS this "lazyseq" :-\
-       :url    streamURL
+       :urt    streamURL
        })))
+
+; TODO build element extraction recursively, each element in it's own method - input the html element, output
+; datastructure with all stuff on the way up
+(defn extractChannel [channelElement]
+  {
+   :name (titleElementName (titleElement channel))
+   :streams (streams channel)
+   })
 
 (defn channels
   "Parses out all di.fm channels from a given di.fm index.html enlive parsed html page structure."
   [indexPage]
     (conj
       (drop 1
-            (for [channel (channelElements indexPage)]
-              {
-               :name (titleElementName (titleElement channel))
-               :streams (streams channel)
-               }))
+            (map extractChannel (channelElements indexPage)))
       {
        :name "Deep Tech"
        :streams [
