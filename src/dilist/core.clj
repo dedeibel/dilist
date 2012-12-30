@@ -34,8 +34,8 @@
 ; datastructure with all stuff on the way up
 (defn extractChannel [channelElement]
   {
-   :name (titleElementName (titleElement channel))
-   :streams (streams channel)
+   :name (titleElementName (titleElement channelElement))
+   :streams (streams channelElement)
    })
 
 (defn channels
