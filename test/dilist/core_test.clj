@@ -24,3 +24,7 @@
                streams      (:streams firstChannel)]
            (is (= "http://listen.di.fm/public3/deeptech.pls" (:url (nth streams 0))))))
 
+(deftest firstChannelfirstNameCorrect
+         (let [firstChannel (first (channels only_deeptech_html))
+               streams      (:streams firstChannel)]
+           (is (= "96k Broadband" (:name (nth streams 0))))))
