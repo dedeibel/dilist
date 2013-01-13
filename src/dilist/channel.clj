@@ -3,7 +3,7 @@
 
 (defrecord Channel [name streams])
 
-(defn removeStreams [filterFn channel] 
-  (assoc channel :streams (remove filterFn (:streams channel))))
+(defn remove-streams [filter-fn channel] 
+  (assoc channel :streams (remove filter-fn (:streams channel))))
 
-(def remove-premium #(removeStreams filter/isPremium %))
+(def remove-premium #(remove-streams filter/is-premium %))

@@ -1,52 +1,51 @@
 (ns dilist.parser-test
   (:use clojure.test
         dilist.parser)
-  (:import java.io.StringReader)
   (:import java.io.ByteArrayInputStream))
 
-(def only_deeptech_html (slurp "test/resources/only_deeptech.html"))
+(def only-deeptech-html (slurp "test/resources/only_deeptech.html"))
 
-(deftest setupValidationTestDataIsNotEmpty
-  (is (< 0 (count only_deeptech_html))))
+(deftest setup-validation-test-data-is-not-empty
+  (is (< 0 (count only-deeptech-html))))
 
-(deftest findSingleChannelDeeptech
+(deftest find-single-channel-deeptech
   (testing "All channels from the file can be found."
-           (is (= 1 (count (channels only_deeptech_html))))))
+           (is (= 1 (count (channels only-deeptech-html))))))
 
-(deftest findSingleChannelDeeptechFromStream
+(deftest fdnd-single-channel-deeptech-from-stream
   (testing "Parsing the channels must also be possible from a stream"
-           (is (= "Deep Tech" (:name (first (channels (ByteArrayInputStream. (.getBytes only_deeptech_html "UTF-8")))))))))
+           (is (= "Deep Tech" (:name (first (channels (ByteArrayInputStream. (.getBytes only-deeptech-html "UTF-8")))))))))
 
-(deftest returnsSingleChannelDeeptechsName
+(deftest returns-single-channel-deeptechs-name
   (testing "Not all channels from the file could be found."
-           (is (= "Deep Tech" (:name (first (channels only_deeptech_html)))))))
+           (is (= "Deep Tech" (:name (first (channels only-deeptech-html)))))))
 
-(deftest firstChannelMetaContentIsCorrect
-  (let [channel (first (channels only_deeptech_html))]
+(deftest first-channel-meta-content-is-correct
+  (let [channel (first (channels only-deeptech-html))]
     (is (= "Deep Tech" (:name channel)))))
 
-(deftest steamURLCorrect
-  (let [channel (first (channels only_deeptech_html))
+(deftest steam-url-correct
+  (let [channel (first (channels only-deeptech-html))
         streams      (:streams channel)]
     (is (= "http://listen.di.fm/public3/deeptech.pls" (:url (first streams))))))
 
-(deftest otherThanTheFirstSteamURLCorrect
-  (let [channel (first (channels only_deeptech_html))
+(deftest other-than-the-first-steam-url-correct
+  (let [channel (first (channels only-deeptech-html))
         streams      (:streams channel)]
     (is (= "http://listen.di.fm/public2/deeptech.pls" (:url (nth streams 2))))))
 
-(deftest streamNameCorrect
-  (let [channel (first (channels only_deeptech_html))
+(deftest stream-name-correct
+  (let [channel (first (channels only-deeptech-html))
         streams      (:streams channel)]
     (is (= "96k Broadband" (:name (first streams))))))
 
-(deftest otherThanTheFirstStreamNameCorrect
-  (let [channel (first (channels only_deeptech_html))
+(deftest other-than-the-first-stream-name-correct
+  (let [channel (first (channels only-deeptech-html))
         streams      (:streams channel)]
     (is (= "40k Dialup" (:name (nth streams 2))))))
 
-(deftest streamFormatCorrect
-  (let [channel (first (channels only_deeptech_html))
+(deftest stream-format-correct
+  (let [channel (first (channels only-deeptech-html))
         streams      (:streams channel)]
     (is (= "MP3" (:format (nth streams 0))))))
 

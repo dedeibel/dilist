@@ -3,8 +3,8 @@
 
 (defrecord Stream [format name url])
 
-(defn isPremium [stream]
+(defn is-premium [stream]
   (= "/premium" (:url stream)))
 
-(defmethod filter/isPremium Stream [stream] (isPremium stream))
+(defmethod filter/is-premium Stream [stream] (is-premium stream))
 

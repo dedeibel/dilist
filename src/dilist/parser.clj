@@ -5,55 +5,55 @@
   (:require [dilist.stream  :as stream])
   (:use [dilist.enlive-util]))
 
-(def ^:dynamic *channelSelector* [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])
+(def ^:dynamic *channel-selector* [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])
 
-(def ^:dynamic *channelStreamsContainerSelector* [:ul [:li (enlive/has [:li])]])
+(def ^:dynamic *channel-streams-container-selector* [:ul [:li (enlive/has [:li])]])
 
-(def ^:dynamic *streamQualityContainerSelector* [:ul :> :li :> :a])
+(def ^:dynamic *stream-quality-container-selector* [:ul :> :li :> :a])
 
-(def ^:dynamic *streamFormatNameSelector* [enlive/root :> :a])
+(def ^:dynamic *stream-format-name-selector* [enlive/root :> :a])
 
-(defn- filterStreamName [streamNameRaw]
-  (clojure.string/replace streamNameRaw #"\s*\n\s*" " "))
+(defn- filter-stream-name [stream-name-raw]
+  (clojure.string/replace stream-name-raw #"\s*\n\s*" " "))
 
-(defmulti channelElements class)
+(defmulti channel-elements class)
 
-(defmethod channelElements java.lang.String
-  [indexPage]
-    (selectString indexPage *channelSelector*))
+(defmethod channel-elements java.lang.String
+  [index-page]
+    (select-string index-page *channel-selector*))
 
-(defmethod channelElements java.io.InputStream
-  [indexPageStream]
-    (-> indexPageStream (enlive/html-resource) (enlive/select *channelSelector*)))
+(defmethod channel-elements java.io.InputStream
+  [index-page-stream]
+    (-> index-page-stream (enlive/html-resource) (enlive/select *channel-selector*)))
 
-(defn- titleElement [channelElement]
-  (-> channelElement (:content) (second)))
+(defn- title-element [channel-element]
+  (-> channel-element (:content) (second)))
 
-(defn- titleElementName [titleElement]
-  (-> titleElement (:content) (first)))
+(defn- title-element-name [title-element]
+  (-> title-element (:content) (first)))
 
-(defn- streams [channelElement]
-  (for [streamContainer        (enlive/select channelElement *channelStreamsContainerSelector*)
-        streamQualityContainer (enlive/select streamContainer *streamQualityContainerSelector*)]
-      (let [streamFormatName  (enlive/text (selectfirst streamContainer *streamFormatNameSelector*))
-            streamName        (filterStreamName (enlive/text streamQualityContainer))
-            streamURL         (:href (:attrs streamQualityContainer))]
+(defn- streams [channel-element]
+  (for [stream-container        (enlive/select channel-element *channel-streams-container-selector*)
+        stream-quality-container (enlive/select stream-container *stream-quality-container-selector*)]
+      (let [stream-format-name  (enlive/text (selectfirst stream-container *stream-format-name-selector*))
+            stream-name        (filter-stream-name (enlive/text stream-quality-container))
+            stream-uRL         (:href (:attrs stream-quality-container))]
         (stream/map->Stream 
           {
-           :format streamFormatName
-           :name   streamName
-           :url    streamURL
+           :format stream-format-name
+           :name   stream-name
+           :url    stream-uRL
            }
           ))))
 
-(defn extractChannelData [channelElement]
+(defn extract-channel-data [channel-element]
   (channel/map->Channel
     {
-     :name (titleElementName (titleElement channelElement))
-     :streams (streams channelElement)
+     :name (title-element-name (title-element channel-element))
+     :streams (streams channel-element)
      }))
 
 (defn channels
   "Parses out all di.fm channels from a given di.fm index.html enlive parsed html page structure."
-  [indexPage]
-            (map extractChannelData (channelElements indexPage)))
+  [index-page]
+            (map extract-channel-data (channel-elements index-page)))

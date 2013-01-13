@@ -7,5 +7,5 @@
   (:use  [clojure.pprint :only [pprint]]))
 
 (defn -main []
-  (->> (download/difmPageAsStream) parse/channels (map channel/remove-premium) pprint)
+  (->> (download/difm-page-as-stream) parse/channels (map channel/remove-premium) pprint)
   )
