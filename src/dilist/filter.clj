@@ -1,3 +1,6 @@
 (ns dilist.filter)
 
-(defn noPremium [channel] (filter true channel))
+(defmulti isPremium class)
+
+(defn noPremium [stream] (remove isPremium stream))
+

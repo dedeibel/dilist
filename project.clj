@@ -7,5 +7,6 @@
                   [org.clojure/clojure "1.4.0"]
                   [clj-http "0.5.4"]
                   [enlive "1.0.1"]
+                  [org.clojure/tools.trace "0.7.5"]
                  ]
   :main dilist.core)

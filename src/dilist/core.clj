@@ -1,8 +1,11 @@
 (ns dilist.core
-  (:require  [dilist.parser :as parser])
+  (:require  [dilist.parser   :as parse])
   (:require  [dilist.download :as download])
+  (:require  [dilist.channel  :as channel])
+  (:require  [dilist.stream   :as stream])
+  (:require  [dilist.filter   :as filter])
   (:use  [clojure.pprint :only [pprint]]))
 
 (defn -main []
-  (pprint (parser/channels (download/difmPageAsStream)))
+  (->> (download/difmPageAsStream) parse/channels (map channel/remove-premium) pprint)
   )
