@@ -3,7 +3,6 @@
   (:require  [dilist.download :as download])
   (:require  [dilist.channel  :as channel])
   (:require  [dilist.stream   :as stream])
-  (:require  [dilist.filter   :as filter])
   (:use  [clojure.pprint :only [pprint]]))
 
 (defn -main []
