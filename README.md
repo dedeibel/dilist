@@ -1,13 +1,15 @@
 # dilist
 
-A Clojure library designed to ... well, that part is up to you.
+Work in progress!
+
+Provies a comfortable way to access all channels from di.fm
 
 ## Usage
 
-FIXME
+wip
 
 ## License
 
-Copyright © 2012 FIXME
+Copyright © 2012 Benjamin Peter
 
 Distributed under the Eclipse Public License, the same as Clojure.
