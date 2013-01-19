@@ -6,5 +6,9 @@
   (:use  [clojure.pprint :only [pprint]]))
 
 (defn -main []
-  (->> (download/difm-page-as-stream) parse/channels (map channel/remove-premium) pprint)
+    (let [allChannels (parse/channels (download/difm-page-as-stream))
+          channels    (map channel/remove-premium allChannels)
+;          playlists   (apply concat (map channel/extract-playlists channels))
+          ]
+      )
   )
