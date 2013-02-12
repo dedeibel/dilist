@@ -1,9 +1,9 @@
-(ns dilist.parser-test
+(ns omniplaylist.difm.parser-test
   (:use clojure.test
-        dilist.parser)
+        omniplaylist.difm.parser)
   (:import java.io.ByteArrayInputStream))
 
-(def only-deeptech-html (slurp "test/resources/only_deeptech.html"))
+(def only-deeptech-html (slurp "test/resources/difm/only_deeptech.html"))
 
 (deftest setup-validation-test-data-is-not-empty
   (is (< 0 (count only-deeptech-html))))

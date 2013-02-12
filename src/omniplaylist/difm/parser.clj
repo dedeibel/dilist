@@ -1,9 +1,9 @@
-(ns dilist.parser
+(ns omniplaylist.difm.parser
   (:require [net.cgrand.enlive-html :as enlive])
   (:require [clojure.string :as string])
-  (:require [dilist.channel :as channel])
-  (:require [dilist.stream  :as stream])
-  (:use [dilist.enlive-util]))
+  (:require [omniplaylist.difm.channel :as channel])
+  (:require [omniplaylist.difm.stream  :as stream])
+  (:use [omniplaylist.enlive-util]))
 
 (def ^:dynamic *channel-selector* [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])
 

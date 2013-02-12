@@ -1,4 +1,4 @@
-(ns dilist.enlive-util
+(ns omniplaylist.enlive-util
   (:require [net.cgrand.enlive-html :as enlive]))
 
 (defmacro select-string

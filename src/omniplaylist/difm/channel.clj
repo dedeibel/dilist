@@ -1,5 +1,5 @@
-(ns dilist.channel
-  (require [dilist.stream :as stream]))
+(ns omniplaylist.difm.channel
+  (require [omniplaylist.difm.stream :as stream]))
 
 (defrecord Channel [name streams])
 
