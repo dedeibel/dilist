@@ -1,5 +1,5 @@
 (ns omniplaylist.difm.channel
-  (require [omniplaylist.difm.stream :as stream]))
+  (require [omniplaylist.difm.remote-playlist :as stream]))
 
 (defrecord Channel [name streams])
 

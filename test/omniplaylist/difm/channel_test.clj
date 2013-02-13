@@ -1,4 +1,4 @@
-(ns omniplaylist.difm.channel_test
+(ns omniplaylist.difm.channel-test
   (:use clojure.test)
   (:use omniplaylist.difm.channel))
 

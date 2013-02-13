@@ -1,17 +1,10 @@
-(ns omniplaylist.difm.stream_test
+(ns omniplaylist.remote_playlist-test
+  (:use omniplaylist.remote-playlist)
   (:require name.benjaminpeter.clj-pls)
-  (:use omniplaylist.difm.stream)
-  (:use clojure.test)
   (:use midje.sweet))
 
-(fact "A premium stream is recognized."
-      (is-premium (map->Stream {:format "MP3" :name "128k Broadband (Premium)" :url "/premium"})) => true)
-
-(fact "A normal stream is not recognized as premium."
-      (is-premium (map->Stream {:format "MP3" :name "128k Broadband" :url "http://listen.di.fm/public2/chiptunes.pls"})) => false)
-
 (fact "A playlist with no tracks must be returned in case of an empty stream url."
-      (-> (map->Stream {:format "MP3" :name "128k Broadband" :url nil}) download-and-parse-playlist :tracks)
+      (-> (map->RemotePlaylist {:format "MP3" :name "128k Broadband" :url nil}) download-and-parse-playlist :tracks)
       => (every-pred coll? empty?))
 
 (def playlist-test-structure
@@ -29,7 +22,7 @@
      :title "Digitally Imported - Chiptunes"}]})
 
 
-(def test-stream (map->Stream
+(def test-stream (map->RemotePlaylist
                    {
                     :format "MP3"
                     :name "128k Broadband" 

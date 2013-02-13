@@ -1,13 +1,10 @@
-(ns omniplaylist.difm.stream
+(ns omniplaylist.remote-playlist
   (:require [name.benjaminpeter.clj-pls :as pls])
   (:require [omniplaylist.download :as download])
   (:require [omniplaylist.playlist :as playlist])
   (:require [omniplaylist.track    :as track]))
 
-(defrecord Stream [format name url])
-
-(defn is-premium [stream]
-  (= "/premium" (:url stream)))
+(defrecord RemotePlaylist [format name url])
 
 (defn- empty-playlist []
   (playlist/map->Playlist {:tracks []}))
