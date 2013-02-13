@@ -20,11 +20,11 @@
 
 (defmethod channel-elements java.lang.String
   [index-page]
-    (select-string index-page *channel-selector*))
+  (select-string index-page *channel-selector*))
 
 (defmethod channel-elements java.io.InputStream
   [index-page-stream]
-    (-> index-page-stream (enlive/html-resource) (enlive/select *channel-selector*)))
+  (-> index-page-stream (enlive/html-resource) (enlive/select *channel-selector*)))
 
 (defn- title-element [channel-element]
   (-> channel-element (:content) (second)))
@@ -35,16 +35,16 @@
 (defn- streams [channel-element]
   (for [stream-container        (enlive/select channel-element *channel-streams-container-selector*)
         stream-quality-container (enlive/select stream-container *stream-quality-container-selector*)]
-      (let [stream-format-name  (enlive/text (selectfirst stream-container *stream-format-name-selector*))
-            stream-name        (filter-stream-name (enlive/text stream-quality-container))
-            stream-uRL         (:href (:attrs stream-quality-container))]
-        (stream/map->RemotePlaylist 
-          {
-           :format stream-format-name
-           :name   stream-name
-           :url    stream-uRL
-           }
-          ))))
+    (let [stream-format-name  (enlive/text (selectfirst stream-container *stream-format-name-selector*))
+          stream-name        (filter-stream-name (enlive/text stream-quality-container))
+          stream-uRL         (:href (:attrs stream-quality-container))]
+      (stream/map->RemotePlaylist 
+        {
+         :format stream-format-name
+         :name   stream-name
+         :url    stream-uRL
+         }
+        ))))
 
 (defn extract-channel-data [channel-element]
   (channel/map->Channel
@@ -56,4 +56,5 @@
 (defn channels
   "Parses out all di.fm channels from a given di.fm index.html enlive parsed html page structure."
   [index-page]
-            (map extract-channel-data (channel-elements index-page)))
+  (map extract-channel-data (channel-elements index-page)))
+
