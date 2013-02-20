@@ -1,7 +1,8 @@
 (ns omniplaylist.remote_playlist-test
-  (:use omniplaylist.remote-playlist)
   (:require name.benjaminpeter.clj-pls)
-  (:use midje.sweet))
+  (:use omniplaylist.remote-playlist
+        midje.sweet
+        omniplaylist.download))
 
 (fact "A playlist with no tracks must be returned in case of an empty stream url."
       (-> (map->RemotePlaylist {:format "MP3" :name "128k Broadband" :url nil}) download-and-parse-playlist :tracks)
@@ -40,7 +41,12 @@
                                                                         :format nil
                                                                         :length -1})
 
-      (provided (name.benjaminpeter.clj-pls/parse anything) => playlist-test-structure)
+      (provided
+        (name.benjaminpeter.clj-pls/parse anything)    => playlist-test-structure
+        (omniplaylist.download/as-stream anything) => nil
+        )
       (count (:tracks (download-and-parse-playlist test-stream))) => 3
-      (provided (name.benjaminpeter.clj-pls/parse anything) => playlist-test-structure))
+      (provided
+        (name.benjaminpeter.clj-pls/parse anything) => playlist-test-structure
+        (omniplaylist.download/as-stream anything) => nil))
 
