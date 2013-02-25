@@ -8,7 +8,7 @@
       (-> (map->RemotePlaylist {:format "MP3" :name "128k Broadband" :url nil}) download-and-parse-playlist :tracks)
       => (every-pred coll? empty?))
 
-(def playlist-test-structure
+(def download-and-parse-playlist-test-download-mock-result
   {:entries 3,
    :version "2",
    :files
@@ -29,24 +29,26 @@
                     :name "128k Broadband" 
                     :url "http://example.com/public2/chiptunes.pls"}))
 
+(def download-and-parse-playlist-expected-tracks '({
+                                                    :title "Digitally Imported - Chiptunes"
+                                                    :url "http://pub4.di.fm:80/di_chiptunes_aacplus"
+                                                    :format nil
+                                                    :length -1},
+                                                   {
+                                                    :title "Digitally Imported - Chiptunes"
+                                                    :url "http://pub1.di.fm:80/di_chiptunes_aacplus"
+                                                    :format nil
+                                                    :length -1}))
+
 (fact "A playlist with tracks must be returned"
-      (:tracks (download-and-parse-playlist test-stream)) => (contains {
-                                                                        :title "Digitally Imported - Chiptunes"
-                                                                        :url "http://pub4.di.fm:80/di_chiptunes_aacplus"
-                                                                        :format nil
-                                                                        :length -1}
-                                                                       {
-                                                                        :title "Digitally Imported - Chiptunes"
-                                                                        :url "http://pub1.di.fm:80/di_chiptunes_aacplus"
-                                                                        :format nil
-                                                                        :length -1})
+      (:tracks (download-and-parse-playlist test-stream)) => (contains download-and-parse-playlist-expected-tracks)
 
       (provided
-        (name.benjaminpeter.clj-pls/parse anything)    => playlist-test-structure
-        (omniplaylist.download/as-stream anything) => nil
+        (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
+        (omniplaylist.download/as-stream anything)  => nil
         )
       (count (:tracks (download-and-parse-playlist test-stream))) => 3
       (provided
-        (name.benjaminpeter.clj-pls/parse anything) => playlist-test-structure
-        (omniplaylist.download/as-stream anything) => nil))
+        (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
+        (omniplaylist.download/as-stream anything)  => nil))
 

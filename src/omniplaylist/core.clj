@@ -7,9 +7,9 @@
 
 (defn -main []
     (let [allChannels (parse/channels (difm-page/difm-page-as-stream))
-          channels    (map channel/remove-premium allChannels)
+;          channels    (map channel/remove-premium allChannels)
 ;          playlists   (apply concat (map channel/extract-playlists channels))
           ]
-      (pprint channels)
+      (pprint allChannels)
       )
   )

@@ -6,5 +6,3 @@
 (defn remove-streams [channel filter-fn] 
   (assoc channel :streams (remove filter-fn (:streams channel))))
 
-(def remove-premium #(remove-streams stream/is-premium %))
-
