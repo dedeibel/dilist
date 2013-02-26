@@ -23,7 +23,7 @@
      :title "Digitally Imported - Chiptunes"}]})
 
 
-(def test-stream (map->RemotePlaylist
+(def test-playlist (map->RemotePlaylist
                    {
                     :format "MP3"
                     :name "128k Broadband" 
@@ -41,13 +41,13 @@
                                                     :length -1}))
 
 (fact "A playlist with tracks must be returned"
-      (:tracks (download-and-parse-playlist test-stream)) => (contains download-and-parse-playlist-expected-tracks)
+      (:tracks (download-and-parse-playlist test-playlist)) => (contains download-and-parse-playlist-expected-tracks)
 
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
         (omniplaylist.download/as-stream anything)  => nil
         )
-      (count (:tracks (download-and-parse-playlist test-stream))) => 3
+      (count (:tracks (download-and-parse-playlist test-playlist))) => 3
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
         (omniplaylist.download/as-stream anything)  => nil))

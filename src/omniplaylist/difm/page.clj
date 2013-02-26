@@ -3,6 +3,7 @@
             [omniplaylist.remote-playlist :as playlist]
             [omniplaylist.difm.parser     :as parser]
             [omniplaylist.difm.channel    :as channel]
+            [omniplaylist.track           :as track]
             [omniplaylist.difm.remote-playlist      :as difm-playlist]
             [omniplaylist.difm.unaccepted-playlists :as unaccepted-playlists]))
 
@@ -25,9 +26,12 @@
   (-> (difm-page-as-stream)
       (parser/channels)
       (unaccepted-playlists/remove-unaccepted-playlists)
-;      ((partial take 3))
+      ((partial take 3))
       (download-all-channels-playlists)
       (concatenate-all-playlists)
-  ))
+      ))
 
+(defn set-track-titles-from-playlist-name-and-format [remote-playlist tracks]
+  (map
+    #(assoc % :title (str (:name remote-playlist) \space (:format remote-playlist))) tracks))
 

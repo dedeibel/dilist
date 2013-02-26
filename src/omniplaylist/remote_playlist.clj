@@ -24,23 +24,23 @@
   (let [pls-playlist (pls/parse playlist-stream)]
     (create-playlist-from-pls-structure pls-playlist)))
 
-(defn download-playlist [stream]
-  (download/as-stream (:url stream)))
+(defn download-playlist [playlist]
+  (download/as-stream (:url playlist)))
 
-(defn- download-and-parse-playlist-throwing-exceptions [stream]
-  (if (clojure.string/blank? (:url stream))
+(defn- download-and-parse-playlist-throwing-exceptions [playlist]
+  (if (clojure.string/blank? (:url playlist))
     (empty-playlist)
-    (parse-pls-playlist (download-playlist stream))))
+    (parse-pls-playlist (download-playlist playlist))))
 
 
-(defn- download-and-parse-playlist-ignoring-exceptions [stream]
-  (try (download-and-parse-playlist-throwing-exceptions stream)
+(defn- download-and-parse-playlist-ignoring-exceptions [playlist]
+  (try (download-and-parse-playlist-throwing-exceptions playlist)
     (catch java.io.IOException ioe nil)
     (catch org.ini4j.InvalidFileFormatException fe nil)
     (finally (empty-playlist))))
 
-(defn download-and-parse-playlist [stream]
+(defn download-and-parse-playlist [playlist]
   (if *ignore-playlist-parse-exceptions*
-    (download-and-parse-playlist-ignoring-exceptions stream)
-    (download-and-parse-playlist-throwing-exceptions stream)))
+    (download-and-parse-playlist-ignoring-exceptions playlist)
+    (download-and-parse-playlist-throwing-exceptions playlist)))
 

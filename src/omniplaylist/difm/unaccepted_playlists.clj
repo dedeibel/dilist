@@ -2,10 +2,10 @@
   (:require [omniplaylist.difm.channel         :as channel]
             [omniplaylist.difm.remote-playlist :as difm-playlist]))
 
-(def unaccepted-playlists-filters [
+(def unaccepted-playlists-filters (list
                                  #(difm-playlist/is-premium %)
                                  #(difm-playlist/is-asx %)
-                                 ]);
+                                 ));
 
 (def unacceptable-playlist-predicate (apply some-fn unaccepted-playlists-filters))
 
