@@ -1,5 +1,6 @@
 (ns omniplaylist.difm.parser-test
   (:use clojure.test
+        midje.sweet
         omniplaylist.difm.parser)
   (:import java.io.ByteArrayInputStream))
 

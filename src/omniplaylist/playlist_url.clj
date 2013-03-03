@@ -1,4 +1,4 @@
-(ns omniplaylist.remote-playlist
+(ns omniplaylist.playlist-url
   (:require [name.benjaminpeter.clj-pls :as pls]
             [omniplaylist.download :as download]
             [omniplaylist.playlist :as playlist]
@@ -6,7 +6,7 @@
 
 (def ^:dynamic *ignore-playlist-parse-exceptions* false)
 
-(defrecord RemotePlaylist [format name url])
+(defrecord PlaylistURL [name format url])
 
 (defn- empty-playlist []
   (playlist/map->Playlist {:tracks []}))
@@ -27,20 +27,22 @@
 (defn download-playlist [playlist]
   (download/as-stream (:url playlist)))
 
-(defn- download-and-parse-playlist-throwing-exceptions [playlist]
-  (if (clojure.string/blank? (:url playlist))
-    (empty-playlist)
-    (parse-pls-playlist (download-playlist playlist))))
+(defn- download-and-parse-playlist-throwing-exceptions [playlist-url]
+    (let [stream             (download-playlist playlist-url)
+          playlist           (parse-pls-playlist stream)
+          playlist-with-name (assoc playlist :name (:name playlist-url))]
+      (playlist/update-format-for-all-tracks playlist-with-name (:format playlist-url))))
 
-
-(defn- download-and-parse-playlist-ignoring-exceptions [playlist]
-  (try (download-and-parse-playlist-throwing-exceptions playlist)
+(defn- download-and-parse-playlist-ignoring-exceptions [playlist-url]
+  (try (download-and-parse-playlist-throwing-exceptions playlist-url)
     (catch java.io.IOException ioe nil)
     (catch org.ini4j.InvalidFileFormatException fe nil)
     (finally (empty-playlist))))
 
-(defn download-and-parse-playlist [playlist]
-  (if *ignore-playlist-parse-exceptions*
-    (download-and-parse-playlist-ignoring-exceptions playlist)
-    (download-and-parse-playlist-throwing-exceptions playlist)))
+(defn download-and-parse-playlist [playlist-url]
+  (if (clojure.string/blank? (:url playlist-url))
+    (empty-playlist)
+    (if *ignore-playlist-parse-exceptions*
+      (download-and-parse-playlist-ignoring-exceptions playlist-url)
+      (download-and-parse-playlist-throwing-exceptions playlist-url))))
 

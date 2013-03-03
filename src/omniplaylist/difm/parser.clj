@@ -1,8 +1,7 @@
 (ns omniplaylist.difm.parser
-  (:require [net.cgrand.enlive-html :as enlive])
-  (:require [clojure.string :as string])
-  (:require [omniplaylist.remote-playlist  :as stream])
-  (:require [omniplaylist.difm.channel :as channel])
+  (:require [net.cgrand.enlive-html    :as enlive]
+            [omniplaylist.difm.channel :as channel]
+            [omniplaylist.playlist-url :as playlist-url])
   (:use [omniplaylist.enlive-util]))
 
 (def ^:dynamic *channel-selector* [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])
@@ -37,12 +36,12 @@
         stream-quality-container (enlive/select stream-container *stream-quality-container-selector*)]
     (let [stream-format-name  (enlive/text (selectfirst stream-container *stream-format-name-selector*))
           stream-name        (filter-stream-name (enlive/text stream-quality-container))
-          stream-uRL         (:href (:attrs stream-quality-container))]
-      (stream/map->RemotePlaylist 
+          stream-URL         (:href (:attrs stream-quality-container))]
+      (playlist-url/map->PlaylistURL 
         {
          :format stream-format-name
          :name   stream-name
-         :url    stream-uRL
+         :url    stream-URL
          }
         ))))
 

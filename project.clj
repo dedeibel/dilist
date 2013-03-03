@@ -13,6 +13,6 @@
                  ]
   :repositories [["mavenrepository" "http://repo1.maven.org/maven2/"]]
   :profiles { :dev {
-                    :dependencies [[midje "1.4.0"]]
-                    :plugins [[lein-midje "2.0.1"]]}}
+                    :dependencies [[midje "1.5-RC1"]]
+                    :plugins [[lein-midje "3.0-RC1"]]}}
   :main omniplaylist.core)

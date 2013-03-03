@@ -1,6 +1,5 @@
 (ns omniplaylist.difm.channel-test
   (:use midje.sweet
-        omniplaylist.remote-playlist
         omniplaylist.difm.channel))
 
 (fact "Streams can be removed using a predicate function. Matching streams are removed."

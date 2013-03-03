@@ -1,4 +1,4 @@
-(ns omniplaylist.difm.remote-playlist)
+(ns omniplaylist.difm.playlist-url)
 
 (defn is-premium [stream]
   (= "/premium" (:url stream)))
