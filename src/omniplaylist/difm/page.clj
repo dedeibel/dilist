@@ -1,6 +1,7 @@
 (ns omniplaylist.difm.page
   (:require [omniplaylist.download        :as download]
             [omniplaylist.playlist        :as playlist]
+            [omniplaylist.difm.playlist   :as difm-playlist]
             [omniplaylist.playlist-url    :as playlist-url]
             [omniplaylist.difm.parser     :as parser]
             [omniplaylist.difm.channel    :as channel]
@@ -19,7 +20,7 @@
 (defn- make-better-track-titles [playlists]
   (map (comp
          playlist/enrich-track-titles-from-playlist-name-and-format
-         playlist/shorten-tracks-digitally-imported-name)
+         difm-playlist/shorten-tracks-digitally-imported-name)
        playlists))
 
 (defn- concatenate-all-playlists [playlists]

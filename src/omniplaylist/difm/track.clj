@@ -2,5 +2,4 @@
   (:require [omniplaylist.track :as track]))
 
 (defn shorten-digitally-imported-name [track]
-  (track/update-title track #(clojure.string/replace % #"Digitally Imported" "di.fm")))
-
+  (track/update-title track #(clojure.string/replace % #"Digitally Imported" "di.fm"))) 
