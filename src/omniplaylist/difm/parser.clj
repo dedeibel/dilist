@@ -52,7 +52,7 @@
      :streams (streams channel-element)
      }))
 
-(defn channels
+(defn parse-all-channels-playlists
   "Parses out all di.fm channels from a given di.fm index.html enlive parsed html page structure."
   [index-page]
   (map extract-channel-data (channel-elements index-page)))

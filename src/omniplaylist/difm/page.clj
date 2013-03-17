@@ -26,13 +26,9 @@
 (defn- concatenate-all-playlists [playlists]
   (mapcat :tracks playlists))
 
-; TODO remove me, I exist for debugging
-;(defn- print-all-streams []
-;  (pprint (all-streams-as-playlist)))
-
 (defn all-streams-as-playlist []
   (-> (difm-page-as-stream)
-      (parser/channels)
+      (parser/parse-all-channels-playlists)
       (unaccepted-playlists/remove-unaccepted-playlist-urls)
       (download-all-channels-playlists)
       (make-better-track-titles)
