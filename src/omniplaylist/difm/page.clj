@@ -5,9 +5,7 @@
             [omniplaylist.playlist-url    :as playlist-url]
             [omniplaylist.difm.parser     :as parser]
             [omniplaylist.difm.channel    :as channel]
-            [omniplaylist.track           :as track]
-            [omniplaylist.difm.playlist-url         :as difm-url]
-            [omniplaylist.difm.unaccepted-playlists :as unaccepted-playlists]))
+            [omniplaylist.track           :as track]))
 
 (def ^:dynamic *digitally-imported-URL* "http://di.fm")
 
@@ -15,13 +13,10 @@
   (download/as-stream *digitally-imported-URL*))
 
 (defn- download-all-channels-playlists [channels]
-  (map playlist-url/download-and-parse-playlist (mapcat :streams channels)))
+  (doall (pmap playlist-url/download-and-parse-playlist (mapcat :streams (doall channels)))))
 
 (defn- make-better-track-titles [playlists]
-  (map (comp
-         playlist/enrich-track-titles-from-playlist-name-and-format
-         difm-playlist/shorten-tracks-digitally-imported-name)
-       playlists))
+  (map difm-playlist/shorten-tracks-digitally-imported-name playlists))
 
 (defn- concatenate-all-playlists [playlists]
   (mapcat :tracks playlists))
@@ -29,9 +24,7 @@
 (defn all-streams-as-playlist []
   (-> (difm-page-as-stream)
       (parser/parse-all-channels-playlists)
-      (unaccepted-playlists/remove-unaccepted-playlist-urls)
       (download-all-channels-playlists)
       (make-better-track-titles)
-      (concatenate-all-playlists)
-      ))
+      (concatenate-all-playlists)))
 

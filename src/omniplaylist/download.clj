@@ -6,8 +6,8 @@
 (defn as-stream [url] 
   (let
     [response (http/get url
-                        {:as :stream, :decode-body-headers true, :headers {"User-Agent" *user-agent*}})]
+                        {:as :stream, :headers {"User-Agent" *user-agent*}})]
     (if (= 200 (:status response))
       (:body response)
       (throw (Exception. (str "Could not fetch web page, return http code: " (:status response)))))))
-  
+
