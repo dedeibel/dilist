@@ -1,6 +1,4 @@
-# dilist
-
-Work in progress!
+# omniplaylist
 
 Provies a comfortable way to access all channels from di.fm
 

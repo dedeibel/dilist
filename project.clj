@@ -5,8 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
                  [org.clojure/clojure "1.5.1"]
-                 [clj-http "0.5.4"]
-                 [enlive "1.0.1"]
+                 [clj-http "0.7.3"]
+                 [enlive "1.1.1"]
                  [org.clojure/tools.trace "0.7.5"]
                  [clj-pls "0.2.2"]
                  [org.ini4j/ini4j "0.5.2"]           ; java
