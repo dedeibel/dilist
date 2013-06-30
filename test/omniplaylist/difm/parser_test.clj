@@ -28,25 +28,16 @@
 (deftest steam-url-correct
   (let [channel (first (parse-all-channels-playlists only-deeptech-html))
         streams      (:streams channel)]
-    (is (= "http://listen.di.fm/public3/deeptech.pls" (:url (first streams))))))
-
-(deftest other-than-the-first-steam-url-correct
-  (let [channel (first (parse-all-channels-playlists only-deeptech-html))
-        streams      (:streams channel)]
-    (is (= "http://listen.di.fm/public2/deeptech.pls" (:url (nth streams 2))))))
+    (is (= "http://listen.di.fm/public2/deeptech.pls" (:url (first streams))))))
 
 (deftest stream-name-correct
   (let [channel (first (parse-all-channels-playlists only-deeptech-html))
         streams      (:streams channel)]
-    (is (= "96k Broadband" (:name (first streams))))))
+    (is (= "Deep Tech" (:name (first streams))))))
 
-(deftest other-than-the-first-stream-name-correct
-  (let [channel (first (parse-all-channels-playlists only-deeptech-html))
-        streams      (:streams channel)]
-    (is (= "40k Dialup" (:name (nth streams 2))))))
-
+; Detecting the format does not make so much sense with the new di.fm UI
 (deftest stream-format-correct
   (let [channel (first (parse-all-channels-playlists only-deeptech-html))
         streams      (:streams channel)]
-    (is (= "MP3" (:format (nth streams 0))))))
+    (is (nil? (:format (nth streams 0))))))
 
