@@ -6,6 +6,9 @@
 
 (def ^:dynamic *channel-selector* [:.main :div.channels :div.lists :> :ul :> :li :> :a])
 
+; Whole URL will be (str *playlist-base-url* CHANNEL_PATH ".pls")
+(def ^:dynamic *playlist-base-url* "http://listen.di.fm/public2/")
+
 (defmulti channel-elements class)
 
 (defmethod channel-elements java.lang.String
@@ -22,7 +25,7 @@
   (subs (-> channel-element :attrs :href) 1))
 
 (defn- url [path]
-  (str "http://listen.di.fm/public2/" path ".pls"))
+  (str *playlist-base-url* path ".pls"))
 
 (defn- streams [channel-element]
   (vector (let [title        (title channel-element)
