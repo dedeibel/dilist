@@ -1,8 +1,10 @@
 # omniplaylist
 
-Provies a comfortable way to access all channels from digitally imported ([di.fm](http://di.fm/)
+Provies a comfortable way to access all channels from digitally imported ([di.fm](http://di.fm/))
 
 [![Build Status](https://travis-ci.org/dedeibel/dilist.png)](https://travis-ci.org/dedeibel/dilist)
+
+_(this is an unofficial app and not supported by the di.fm folks)_
 
 ## Usage
 
@@ -29,8 +31,6 @@ $ lein run > difm.pls
 
 ## License
 
-_(this is an unofficial app and not supported by the di.fm folks)_
-
-Copyright © 2012 Benjamin Peter
+Copyright © 2013 Benjamin Peter
 
 Distributed under the Eclipse Public License, the same as Clojure.
