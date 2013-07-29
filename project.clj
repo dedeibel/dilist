@@ -1,4 +1,4 @@
-(defproject omniplaylist "0.1.2"
+(defproject omniplaylist "0.1.3"
   :description "Downloads some interesting playlists and provides one conactenated list"
   :url "http://benjaminpeter.name"
   :license {:name "Eclipse Public License"
