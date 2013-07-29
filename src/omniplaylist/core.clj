@@ -1,4 +1,5 @@
 (ns omniplaylist.core
+  (:gen-class)
   (:require  [name.benjaminpeter.clj-pls  :as pls])
   (:require  [omniplaylist.difm.page      :as difm-page])
   (:use  [clojure.pprint :only [pprint]]))

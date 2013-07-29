@@ -13,7 +13,8 @@
   (download/as-stream *digitally-imported-URL*))
 
 (defn- download-all-channels-playlists [channels]
-  (pmap playlist-url/download-and-parse-playlist (mapcat :streams channels)))
+  (let [urls (mapcat :streams channels)]
+    (download/process-parallel-with-connection-pool playlist-url/download-and-parse-playlist urls)))
 
 (defn- make-better-track-titles [playlists]
   (map difm-playlist/shorten-tracks-digitally-imported-name playlists))
