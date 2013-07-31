@@ -28,10 +28,10 @@
   (download/as-stream (:url playlist)))
 
 (defn- download-and-parse-playlist-throwing-exceptions [playlist-url]
-    (let [stream             (download-playlist playlist-url)
-          playlist           (parse-pls-playlist stream)
+  (with-open [stream (download-playlist playlist-url)]
+    (let [playlist           (parse-pls-playlist stream)
           playlist-with-name (assoc playlist :name (:name playlist-url))]
-      (playlist/update-format-for-all-tracks playlist-with-name (:format playlist-url))))
+      (playlist/update-format-for-all-tracks playlist-with-name (:format playlist-url)))))
 
 (defn- download-and-parse-playlist-ignoring-exceptions [playlist-url]
   (try (download-and-parse-playlist-throwing-exceptions playlist-url)

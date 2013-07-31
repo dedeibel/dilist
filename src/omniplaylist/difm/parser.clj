@@ -4,16 +4,10 @@
             [omniplaylist.playlist-url :as playlist-url])
   (:use [omniplaylist.enlive-util]))
 
-(def ^:dynamic *channel-selector* [:#head-content :ul.nav :ul.wide :> [:li (enlive/has [[:a (enlive/attr= :href "#")]])]])
+(def ^:dynamic *channel-selector* [:.main :div.channels :div.lists :> :ul :> :li :> :a])
 
-(def ^:dynamic *channel-streams-container-selector* [:ul [:li (enlive/has [:li])]])
-
-(def ^:dynamic *stream-quality-container-selector* [:ul :> :li :> :a])
-
-(def ^:dynamic *stream-format-name-selector* [enlive/root :> :a])
-
-(defn- filter-stream-name [stream-name-raw]
-  (clojure.string/replace stream-name-raw #"\s*\n\s*" " "))
+; Whole URL will be (str *playlist-base-url* CHANNEL_PATH ".pls")
+(def ^:dynamic *playlist-base-url* "http://listen.di.fm/public2/")
 
 (defmulti channel-elements class)
 
@@ -21,34 +15,34 @@
   [index-page]
   (select-string index-page *channel-selector*))
 
-(defmethod channel-elements java.io.InputStream
-  [index-page-stream]
+(defmethod channel-elements java.io.InputStream [index-page-stream]
   (-> index-page-stream (enlive/html-resource) (enlive/select *channel-selector*)))
 
-(defn- title-element [channel-element]
-  (-> channel-element (:content) (second)))
+(defn- title [channel-element]
+  (-> channel-element :content (nth 3) :content first))
 
-(defn- title-element-name [title-element]
-  (-> title-element (:content) (first)))
+(defn- path [channel-element]
+  (subs (-> channel-element :attrs :href) 1))
+
+(defn- url [path]
+  (str *playlist-base-url* path ".pls"))
 
 (defn- streams [channel-element]
-  (for [stream-container        (enlive/select channel-element *channel-streams-container-selector*)
-        stream-quality-container (enlive/select stream-container *stream-quality-container-selector*)]
-    (let [stream-format-name  (enlive/text (selectfirst stream-container *stream-format-name-selector*))
-          stream-name        (filter-stream-name (enlive/text stream-quality-container))
-          stream-URL         (:href (:attrs stream-quality-container))]
-      (playlist-url/map->PlaylistURL 
-        {
-         :format stream-format-name
-         :name   stream-name
-         :url    stream-URL
-         }
-        ))))
+  (vector (let [title        (title channel-element)
+        path-name    (path channel-element)
+        pls-url      (url path-name)]
+    (playlist-url/map->PlaylistURL 
+      {
+       :format nil
+       :name   title
+       :url    pls-url
+       }
+      ))))
 
 (defn extract-channel-data [channel-element]
   (channel/map->Channel
     {
-     :name (title-element-name (title-element channel-element))
+     :name    (title channel-element)
      :streams (streams channel-element)
      }))
 
