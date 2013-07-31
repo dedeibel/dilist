@@ -2,7 +2,8 @@
   (:use midje.sweet
         omniplaylist.playlist-url)
   (:require [name.benjaminpeter.clj-pls]
-            [omniplaylist.download :as download]))
+            [omniplaylist.download :as download])
+  (:import [java.io ByteArrayInputStream]))
 
 (fact "A playlist with no tracks must be returned in case of an empty stream url."
       (-> (map->PlaylistURL {:format "MP3" :name "128k Broadband" :url nil}) download-and-parse-playlist :tracks)
@@ -37,31 +38,34 @@
                                                     :url "http://pub1.di.fm:80/di_chiptunes_aacplus"
                                                     :format "MP3"
                                                     :length -1}))
+(defn- as-stream-mock []
+  (new java.io.ByteArrayInputStream (byte-array 0))
+)
 
 (fact "A playlist containing the number of tracks as specified in the playlist file must be returned"
       (count (:tracks (download-and-parse-playlist test-playlist))) => (count download-and-parse-playlist-expected-tracks)
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
-        (download/as-stream anything)  => nil))
+        (download/as-stream anything)  => (as-stream-mock)))
 
 (fact "The title of the tracks is set according the playlist information"
       (map :title (:tracks (download-and-parse-playlist test-playlist))) => (map :title download-and-parse-playlist-expected-tracks)
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
-        (download/as-stream anything)  => nil
+        (download/as-stream anything)  => (as-stream-mock)
         ))
 
 (fact "The format of the tracks is set to the playlist's format"
       (map :format (:tracks (download-and-parse-playlist test-playlist))) => (n-of (:format test-playlist) (count download-and-parse-playlist-expected-tracks))
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
-        (download/as-stream anything)  => nil
+        (download/as-stream anything)  => (as-stream-mock)
         ))
 
 (fact "The playlist has the name of the playlist url"
       (:name (download-and-parse-playlist test-playlist)) => (:name test-playlist)
       (provided
         (name.benjaminpeter.clj-pls/parse anything) => download-and-parse-playlist-test-download-mock-result
-        (download/as-stream anything)  => nil
+        (download/as-stream anything)  => (as-stream-mock)
         ))
 
