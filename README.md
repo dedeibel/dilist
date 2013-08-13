@@ -2,8 +2,6 @@
 
 Provies a comfortable way to access all channels from digitally imported ([di.fm](http://di.fm/))
 
-[![Build Status](https://travis-ci.org/dedeibel/dilist.png)](https://travis-ci.org/dedeibel/dilist)
-
 Get the current playlist [difm.pls](http://limitless-shore-5721.herokuapp.com/).
 
 _(this is an unofficial app and not supported by the di.fm folks)_
