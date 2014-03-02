@@ -1,5 +1,11 @@
 # omniplaylist
 
+
+
+NOTE: Currently NOT WORKING due to di.fm website changes.
+
+
+
 Provies a comfortable way to access all channels from digitally imported ([di.fm](http://di.fm/))
 
 Get the current playlist [difm.pls](http://limitless-shore-5721.herokuapp.com/).
